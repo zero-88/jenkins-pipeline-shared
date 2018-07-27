@@ -27,7 +27,7 @@ def releaseContent(String version) {
         <p>RELEASE <a href='${web_url}/${tag_path}/${GIT_BRANCH}'>${version}</a></p>
         <ul>
             <li>Job Name: ${JOB_NAME}</li>
-            <li>Console: <a href='${BUILD_URL}'>${JOB_NAME} #[${BUILD_NUMBER}]</a></li>
+            <li>Console: <a href='${BUILD_URL}'>${JOB_NAME} #${BUILD_NUMBER}</a></li>
         </ul>
     """
 }
@@ -45,7 +45,7 @@ def failureContent(String version) {
             <li>Changes:
                 <ul>
                     <li>Author: ${committer} <${committerEmail}></li>
-                    <li>Branch: <a href='${web_url}/${branch_path}/${GIT_BRANCH}'>${GIT_BRANCH}</a>${GIT_BRANCH}</li>
+                    <li>Branch: <a href='${web_url}/${branch_path}/${GIT_BRANCH}'>${GIT_BRANCH}</a></li>
                     <li>Commit: <a href='${web_url}/${commit_path}/${GIT_COMMIT}'>${GIT_COMMIT}</a></li>
                 </ul>
             </li>
