@@ -6,7 +6,7 @@
  */
 def call(String version = '1.0.0') {
     web_url = GIT_URL.replaceAll(/\.git(#.*)?$/, '').replaceAll(/^git(\+(ssh|https?)\:\/\/git)?\@/, 'https://').replaceAll(/:([^\/])/, '/$1')
-    def content = GIT_BRANCH ==~ /^v.+/ && currentBuild.result == 'SUCCESSFUL' ? releaseContent(version) : failureContent()
+    def content = GIT_BRANCH ==~ /^v.+/ && currentBuild.result == 'SUCCESSFUL' ? releaseContent(version) : failureContent(version)
     def prefixSubject = GIT_BRANCH ==~ /^v.+/ ? "[Jenkins] [Release]" : "[Jenkins]"
     def recipients = GIT_BRANCH ==~ /^v.+/ ? "ListRecipientProvider" : "DevelopersRecipientProvider"
     if (currentBuild.result == 'FAILURE' || GIT_BRANCH ==~ /^v.+/) {
@@ -32,7 +32,7 @@ def releaseContent(String version) {
     """
 }
 
-def failureContent() {
+def failureContent(String version) {
     def committerEmail = sh (script: 'git --no-pager show -s --format=\'%ae\'', returnStdout: true).trim()
     def committer = sh (script: 'git --no-pager show -s --format=\'%an\'', returnStdout: true).trim()
     def commit_path = web_url =~ /github|gitlab/ ? 'commit' : url =~ /bitbucket/ ? 'commits' : 'commit'
