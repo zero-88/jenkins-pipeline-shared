@@ -8,15 +8,15 @@ def call(String version = '1.0.0') {
     web_url = GIT_URL.replaceAll(/\.git(#.*)?$/, '').replaceAll(/^git(\+(ssh|https?)\:\/\/git)?\@/, 'https://').replaceAll(/:([^\/])/, '/$1')
     def content = GIT_BRANCH ==~ /^v.+/ && currentBuild.result == 'SUCCESSFUL' ? releaseContent(version) : failureContent(version)
     def prefixSubject = GIT_BRANCH ==~ /^v.+/ ? "[Jenkins] [Release]" : "[Jenkins]"
-    def recipients = GIT_BRANCH ==~ /^v.+/ ? "recipients" : "developers"
     if (currentBuild.result == 'FAILURE' || GIT_BRANCH ==~ /^v.+/) {
         emailext (
-            recipientProviders: [recipients],
+            recipientProviders: GIT_BRANCH ==~ /^v.+/ ? [] : ["culprits", "requestor"],
             subject: "${prefixSubject} ${JOB_NAME}-#${BUILD_NUMBER} [${currentBuild.result}]",
             body: "${content}",
             attachLog: true,
             compressLog: true,
-            mimeType: 'text/html'
+            mimeType: 'text/html',
+            to: GIT_BRANCH ==~ /^v.+/ ? DEFAULT_RECIPIENTS : ""
         )
     }
 }
