@@ -1,0 +1,5 @@
+<strong>emailNotifications(version='1.0.0')</strong>
+
+<p>
+    Sends notifications via email in case status = 'FAILURE' on any branch/tag or Release by tag.
+</p>

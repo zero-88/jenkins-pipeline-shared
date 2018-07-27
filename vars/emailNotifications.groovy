@@ -2,6 +2,7 @@
 
 /**
  * Send notifications based on build status string
+ * Git URL Pattern: <protocol>://[<user>[:<password>]@]<hostname>[:<port>][:][/]<path>[#<commit-ish> | #semver:<semver>]
  */
 def call(String version = '1.0.0') {
     web_url = GIT_URL.replaceAll(/\.git(#.*)?$/, '').replaceAll(/^git(\+(ssh|https?)\:\/\/git)?\@/, 'https://').replaceAll(/:([^\/])/, '/$1')
