@@ -10,7 +10,7 @@ def call(String version = '1.0.0') {
     def prefixSubject = GIT_BRANCH ==~ /^v.+/ ? "[Jenkins] [Release]" : "[Jenkins]"
     if (currentBuild.result == 'FAILURE' || GIT_BRANCH ==~ /^v.+/) {
         emailext (
-            recipientProviders: GIT_BRANCH ==~ /^v.+/ ? [] : ["culprits", "requestor"],
+            recipientProviders: GIT_BRANCH ==~ /^v.+/ ? [] : [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']],
             subject: "${prefixSubject} ${JOB_NAME}-#${BUILD_NUMBER} [${currentBuild.result}]",
             body: "${content}",
             attachLog: true,
