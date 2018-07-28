@@ -6,7 +6,7 @@
  */
 def call(String version = '1.0.0') {
     web_url = GIT_URL.replaceAll(/\.git(#.*)?$/, '').replaceAll(/^git(\+(ssh|https?)\:\/\/git)?\@/, 'https://').replaceAll(/:([^\/])/, '/$1')
-    def content = GIT_BRANCH ==~ /^v.+/ && currentBuild.result == 'SUCCESSFUL' ? releaseContent(version) : failureContent(version)
+    def content = GIT_BRANCH ==~ /^v.+/ && currentBuild.result == 'SUCCESS' ? releaseContent(version) : failureContent(version)
     def prefixSubject = GIT_BRANCH ==~ /^v.+/ ? "[Jenkins] [Release]" : "[Jenkins]"
     if (currentBuild.result == 'FAILURE' || GIT_BRANCH ==~ /^v.+/) {
         emailext (
