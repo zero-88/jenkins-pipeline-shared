@@ -1,0 +1,5 @@
+<strong>githubHookStatus</strong>
+
+<p>
+    Show current build status of Jenkins build on GitHub repo.
+</p>
