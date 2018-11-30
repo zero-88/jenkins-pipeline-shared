@@ -10,7 +10,7 @@ def getCommitSha() {
     return readFile(".git/current-commit").trim()
 }
  
-def call() {
+def updateGithubCommitStatus(build) {
     // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
     repoUrl = getRepoURL()
     commitSha = getCommitSha()
@@ -25,8 +25,12 @@ def call() {
             results: [
                 [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: "The build has succeeded!"],
                 [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: "Oops! Please do it right, dude!"],
-                [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Ohhh! What']
+                [$class: 'AnyBuildResult', state: 'UNSTABLE', message: 'Ohhh! What']
             ]
         ]
     ])
+}
+
+def call() {
+    updateGithubCommitStatus(currentBuild)
 }
