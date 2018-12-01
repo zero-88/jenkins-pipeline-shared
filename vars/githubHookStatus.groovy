@@ -33,5 +33,6 @@ def updateGithubCommitStatus(build) {
 
 def call() {
     echo "Hey ${currentBuild}"
-    updateGithubCommitStatus(currentBuild)
+    echo "Result ${currentBuild.result}"
+    updateGithubCommitStatus(currentBuild.rawBuild)
 }
