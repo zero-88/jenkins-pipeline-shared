@@ -24,12 +24,14 @@ def updateGithubCommitStatus(build) {
             $class: 'ConditionalStatusResultSource',
             results: [
                 [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: "The build has succeeded!"],
-                [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'ERROR', message: "Oops! Please do it right, dude!"]
+                [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'ERROR', message: "Oops! Please do it right, dude!"],
+                [$class: 'AnyBuildResult', state: 'UNSTABLE', message: 'Ohhh! What']
             ]
         ]
     ])
 }
 
 def call() {
+    echo "Hey ${currentBuild}"
     updateGithubCommitStatus(currentBuild)
 }
