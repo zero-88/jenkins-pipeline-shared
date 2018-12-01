@@ -14,7 +14,7 @@ def updateGithubCommitStatus(build) {
     // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
     repoUrl = getRepoURL()
     commitSha = getCommitSha()
-    
+    echo "Hello ${JOB_NAME}-#${BUILD_NUMBER}::${build.result}"
     step([
         $class: 'GitHubCommitStatusSetter',
         reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
@@ -24,8 +24,7 @@ def updateGithubCommitStatus(build) {
             $class: 'ConditionalStatusResultSource',
             results: [
                 [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: "The build has succeeded!"],
-                [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: "Oops! Please do it right, dude!"],
-                [$class: 'AnyBuildResult', state: 'UNSTABLE', message: 'Ohhh! What']
+                [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'ERROR', message: "Oops! Please do it right, dude!"]
             ]
         ]
     ])
